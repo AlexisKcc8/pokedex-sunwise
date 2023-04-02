@@ -1,0 +1,14 @@
+:root {
+  --bg-btns: rgb(0, 255, 0);
+  --bg-thead: #48ff3fd0;
+  --tbody-tr-nth-child-odd: #ffffff;
+  --tbody-tr-nth-child-even: #c4ffb285;
+}
+
+body {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
