@@ -4,13 +4,23 @@ import { MyButton } from "../components/MyButton";
 import { ContainerFluid } from "../components/ContainerFluid";
 import { PokemonsModGrid } from "../components/PokemonsModGrid";
 import { PokemonsModList } from "../components/PokemonsModList";
+import { usePokemon } from "../hooks/usePokemon";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export const MainPage = () => {
+  const userActive = useSelector((state) => state.usersLogin.userLogin);
+  const [isViewPokemonList, setIsViewPokemonList] = useState(true);
+
+  const changeViewPokemon = () => {
+    setIsViewPokemonList(!isViewPokemonList);
+  };
   return (
     <ContainerFluid>
       <ContainerMain>
         <SectionHeaderWelcome>
           <TitleH2>Pokédex</TitleH2>
+          <TitleH2>Hola {userActive.name}</TitleH2>
         </SectionHeaderWelcome>
         <SectionSearchAndChangeView>
           <form>
@@ -22,12 +32,15 @@ export const MainPage = () => {
             />
           </form>
           <section style={{ border: "1px solid blue" }}>
-            <MyButton bgColor={"blue"} title={"Lista"} />
-            <MyButton title={"Cuadricula"} />
+            <MyButton event={changeViewPokemon} title={"Lista"} />
+            <MyButton
+              event={changeViewPokemon}
+              bgColor={"blue"}
+              title={"Cuadricula"}
+            />
           </section>
         </SectionSearchAndChangeView>
-        <PokemonsModList />
-        {/* <PokemonsModGrid /> */}
+        {isViewPokemonList ? <PokemonsModList /> : <PokemonsModGrid />}
       </ContainerMain>
     </ContainerFluid>
   );

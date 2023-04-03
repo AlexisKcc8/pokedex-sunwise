@@ -12,8 +12,6 @@ export const pokeSlice = createSlice({
       } else {
         state = null;
       }
-      // console.log(state);
-      console.log(state);
     },
   },
 });

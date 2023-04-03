@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const MyButton = (props) => {
-  const { title } = props;
-  return <Button>{title}</Button>;
+  const { title, bgColor = "var(--bg-btns)", event } = props;
+
+  return <Button onClick={event}>{title}</Button>;
 };
 const Button = styled.button({
   border: "none",

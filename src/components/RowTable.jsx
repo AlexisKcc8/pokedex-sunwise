@@ -9,7 +9,11 @@ export const RowTable = (props) => {
   //       skills: responseApiPoke.abilities,
   //       shynis: [responseApiPoke.sprites],
   return (
-    <tr>
+    <tr
+      onClick={() => {
+        console.log(pokemon);
+      }}
+    >
       <th scope="row">{pokemon.id}</th>
       <td>{pokemon.name}</td>
       <td>

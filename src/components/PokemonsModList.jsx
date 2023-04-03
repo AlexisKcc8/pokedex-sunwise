@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import { Table } from "./Table";
 import { RowTable } from "./RowTable";
+import { usePokemon } from "../hooks/usePokemon";
 
 export const PokemonsModList = () => {
   const pokemons = useSelector((state) => state.pokemons);
-
+  usePokemon();
   return (
     <Table summary="Los grupos de música punk más famosos del Reino Unido">
       <thead>

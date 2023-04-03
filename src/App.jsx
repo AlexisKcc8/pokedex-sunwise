@@ -1,42 +1,32 @@
 import { useEffect } from "react";
 import { LoginPage } from "./pages/LoginPage";
 import { MainPage } from "./pages/MainPage";
-import { helpHttp } from "./helper/helpHttp";
-import { useDispatch } from "react-redux";
-import { getPoke } from "./redux/pokemonsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getValueToLocaleStorage,
+  setValueToLocaleStorage,
+} from "./helper/localStorageFunction";
+import { getUserActive } from "./features/auth/userSlice";
 
 function App() {
-  let urlPoke = "https://pokeapi.co/api/v2/pokemon";
+  const userActive = useSelector((state) => state.usersLogin.userLogin);
   const dispatch = useDispatch();
-  const getApiPokes = async () => {
-    try {
-      let responseApiUrlsPoke = await helpHttp().get(urlPoke);
-      const { results } = responseApiUrlsPoke;
-      for (const { url } of results) {
-        let responseApiPoke = await helpHttp().get(url);
-        let objectPokemon = {
-          id: responseApiPoke.id,
-          name: responseApiPoke.name,
-          preview: responseApiPoke.sprites.front_default,
-          types: responseApiPoke.types,
-          skills: responseApiPoke.abilities,
-          shynis: [responseApiPoke.sprites],
-        };
-
-        dispatch(getPoke(objectPokemon));
-      }
-    } catch (error) {
-      dispatch(getPoke(null));
-    }
-  };
   useEffect(() => {
-    getApiPokes();
-  }, [urlPoke]);
+    const loadLogin = () => {
+      const userActive = getValueToLocaleStorage("userActive");
+      if (userActive) {
+        dispatch(getUserActive(userActive));
+      } else {
+        setValueToLocaleStorage("userActive", {});
+      }
+    };
+    loadLogin();
+
+    return () => {};
+  }, []);
+
   return (
-    <section>
-      <LoginPage />
-      <MainPage />
-    </section>
+    <section>{userActive.statusLogin ? <MainPage /> : <LoginPage />}</section>
   );
 }
 

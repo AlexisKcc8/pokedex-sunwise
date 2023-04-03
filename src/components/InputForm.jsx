@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const InputForm = (props) => {
-  const { type, placeHolder, urlIcon, altIcon } = props;
+  const { type, placeHolder, urlIcon, altIcon, handleChange, name, value } =
+    props;
   return (
     <ContainerIconInput>
       {urlIcon ? (
@@ -9,7 +10,14 @@ export const InputForm = (props) => {
           <Icon src={urlIcon} alt={altIcon} />
         </FigureIcon>
       ) : null}
-      <MyInput type={type} placeholder={placeHolder} required />
+      <MyInput
+        type={type}
+        value={value}
+        placeholder={placeHolder}
+        onChange={handleChange}
+        name={name}
+        required
+      />
     </ContainerIconInput>
   );
 };
@@ -17,7 +25,9 @@ export const InputForm = (props) => {
 const ContainerIconInput = styled.div({
   position: "relative",
   minWidth: "5rem",
-  backgroundColor: "red",
+  border: "none",
+  outline: "none",
+  borderRadius: "10px",
 });
 const FigureIcon = styled.figure({
   margin: "0",
@@ -34,7 +44,8 @@ const Icon = styled.img({
 });
 const MyInput = styled.input({
   boxSizing: "border-box",
-  color: "#191919",
-  padding: "15px 15px 15px 35px",
+  padding: "1.2rem 1.2rem 1.2rem 2.5rem",
   width: "100%",
+
+  borderRadius: "10px",
 });

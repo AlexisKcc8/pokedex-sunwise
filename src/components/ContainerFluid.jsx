@@ -6,5 +6,5 @@ export const ContainerFluid = styled.section({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  border: "1px solid red",
+  // border: "1px solid red",
 });
