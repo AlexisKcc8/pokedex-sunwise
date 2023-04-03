@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
+
 import { setValueToLocaleStorage } from "../../helper/localStorageFunction";
 const initialState = {
   userLogin: {
@@ -22,12 +23,13 @@ export const usersSlice = createSlice({
     },
     newLogin: (state, action) => {
       const { email, password } = action.payload;
+      console.log(email, password);
       const findUser = state.newUsers.find(
         (user) => user.email === email && user.password === password
       );
-
+      console.log(findUser);
       if (findUser === undefined) {
-        return state.userLogin;
+        state.userLogin = {};
       } else {
         state.userLogin.name = findUser.name;
         state.userLogin.email = findUser.email;

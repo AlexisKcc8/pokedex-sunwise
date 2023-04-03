@@ -4,14 +4,32 @@ import { MyButton } from "../components/MyButton";
 import { ContainerFluid } from "../components/ContainerFluid";
 import { PokemonsModGrid } from "../components/PokemonsModGrid";
 import { PokemonsModList } from "../components/PokemonsModList";
-import { usePokemon } from "../hooks/usePokemon";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  getValueToLocaleStorage,
+  setValueToLocaleStorage,
+} from "../helper/localStorageFunction";
+import { getUserActive } from "../features/auth/userSlice";
 
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
+  const dispatch = useDispatch();
   const [isViewPokemonList, setIsViewPokemonList] = useState(true);
+  useEffect(() => {
+    const loadLogin = () => {
+      const userActive = getValueToLocaleStorage("userActive");
 
+      if (userActive) {
+        dispatch(getUserActive(userActive));
+      } else {
+        setValueToLocaleStorage("userActive", {});
+      }
+    };
+    loadLogin();
+
+    return () => {};
+  }, []);
   const changeViewPokemon = () => {
     setIsViewPokemonList(!isViewPokemonList);
   };
@@ -56,7 +74,7 @@ const SectionHeaderWelcome = styled.section({
   justifyContent: "space-between",
   alignItems: "center",
   padding: "1rem",
-  margin: "2rem 0 0 0",
+  margin: "1rem 0 0 0",
 });
 const SectionSearchAndChangeView = styled.section({
   border: "1px solid red",
@@ -65,5 +83,5 @@ const SectionSearchAndChangeView = styled.section({
   padding: ".5rem 0",
 });
 const TitleH2 = styled.h2({
-  fontSize: "3rem",
+  fontSize: "2rem",
 });

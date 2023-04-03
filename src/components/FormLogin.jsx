@@ -13,6 +13,7 @@ export const FormLogin = () => {
     isSignUp,
     passwordEquals,
     registerSuccess,
+    errorLogin,
   } = useAuth();
   return (
     <MyForm onSubmit={handleSubmit}>
@@ -51,6 +52,12 @@ export const FormLogin = () => {
         placeHolder={"Contraseña"}
         urlIcon="/icons/pws.svg"
       />
+      {errorLogin ? (
+        <MessageInfo
+          message="Estos datos no pertenecen a ningun usuario, por favor reviselas"
+          color="red"
+        />
+      ) : null}
       {isSignUp ? (
         <InputForm
           type={"password"}

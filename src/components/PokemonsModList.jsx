@@ -5,32 +5,37 @@ import { usePokemon } from "../hooks/usePokemon";
 
 export const PokemonsModList = () => {
   const pokemons = useSelector((state) => state.pokemons);
-  usePokemon();
+
   return (
-    <Table summary="Los grupos de música punk más famosos del Reino Unido">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Vista Previa</th>
-          <th scope="col">Tipos</th>
-          <th scope="col">Habilidades</th>
-          <th scope="col">Otros</th>
-        </tr>
-      </thead>
-      <tbody>
-        {pokemons.length > 0 ? (
-          pokemons.map((pokemon) => (
-            <RowTable key={pokemon.id} pokemon={pokemon} />
-          ))
-        ) : (
+    <>
+      <Table summary="Los grupos de música punk más famosos del Reino Unido">
+        <thead>
           <tr>
-            <td colSpan={6} style={{ width: "100%", backgroundColor: "red" }}>
-              Sin datos
-            </td>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Vista Previa</th>
+            <th scope="col">Tipos</th>
+            <th scope="col">Habilidades</th>
+            <th scope="col">Otros</th>
           </tr>
-        )}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {pokemons.length > 0 ? (
+            pokemons.map((pokemon) => (
+              <RowTable key={pokemon.id} pokemon={pokemon} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} style={{ width: "100%", backgroundColor: "red" }}>
+                Sin datos
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+      <div>
+        <h2>aqui va la paginacion</h2>
+      </div>
+    </>
   );
 };
