@@ -11,14 +11,17 @@ import { getUserActive, getUsers } from "./features/auth/userSlice";
 import { usePokemon } from "./hooks/usePokemon";
 
 function App() {
-  usePokemon();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("renderizo la carga de usuarios");
     const users = getValueToLocaleStorage("usersLogin");
-    if (users) {
+    const userActive = getValueToLocaleStorage("userActive");
+    if (users && userActive) {
       dispatch(getUsers(users));
+      dispatch(getUserActive(userActive));
     } else {
-      setValueToLocaleStorage("usersLogin", {});
+      setValueToLocaleStorage("usersLogin", []);
+      setValueToLocaleStorage("userActive", {});
     }
   }, []);
 

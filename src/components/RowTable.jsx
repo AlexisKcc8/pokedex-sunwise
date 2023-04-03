@@ -2,6 +2,7 @@ import React from "react";
 
 export const RowTable = (props) => {
   const { pokemon } = props;
+
   // id: responseApiPoke.id,
   //       name: responseApiPoke.name,
   //       preview: responseApiPoke.sprites.front_default,

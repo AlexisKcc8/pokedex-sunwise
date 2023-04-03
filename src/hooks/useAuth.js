@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, newLogin, getUsers } from "../features/auth/userSlice";
-import {
-  getValueToLocaleStorage,
-  setValueToLocaleStorage,
-} from "../helper/localStorageFunction";
+import { addUser, newLogin } from "../features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const initialStateUser = {
@@ -23,7 +19,6 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   useEffect(() => {
-    console.log(userActive);
     if (userActive.statusLogin) {
       navigate("/main-page");
     } else {
