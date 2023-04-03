@@ -26,14 +26,14 @@ export const MainPage = () => {
               placeHolder={"Buscar Pokémon"}
             />
           </form>
-          <section style={{ border: "1px solid blue" }}>
+          <ContainerBtnsChangeView>
             <MyButton event={() => changeViewPokemon(true)} title={"Lista"} />
             <MyButton
               event={() => changeViewPokemon(false)}
               bgColor={"blue"}
               title={"Cuadricula"}
             />
-          </section>
+          </ContainerBtnsChangeView>
         </SectionSearchAndChangeView>
         {isViewPokemonList ? <PokemonsModList /> : <PokemonsModGrid />}
       </ContainerMain>
@@ -54,10 +54,14 @@ const SectionHeaderWelcome = styled.section({
   margin: "1rem 0 0 0",
 });
 const SectionSearchAndChangeView = styled.section({
-  border: "1px solid red",
   display: "flex",
   justifyContent: "space-between",
   padding: ".5rem 0",
+});
+const ContainerBtnsChangeView = styled.section({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 });
 const TitleH2 = styled.h2({
   fontSize: "2rem",

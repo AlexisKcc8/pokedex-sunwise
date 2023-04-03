@@ -4,7 +4,7 @@ export const Table = styled.table({
   tableLayout: "fixed",
   width: "100%",
   borderCollapse: "collapse",
-  border: "1px solid red",
+  border: "1px solid var(--bg-thead)",
 
   textAlign: "center",
 

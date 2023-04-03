@@ -13,41 +13,23 @@ export const CardPokemon = (props) => {
       <div style={{ width: "100%" }}>
         <h2>{pokemon.name}</h2>
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          gap: "1rem",
-        }}
-      >
-        <p>habilidades:</p>
+      <h4>Habilidades:</h4>
+      <SectionSkills>
         {pokemon.skills.map((skills, index) => (
           <p key={index}>{skills.ability.name}</p>
         ))}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: "50%",
-            gap: "1rem",
-          }}
-        >
+      </SectionSkills>
+      <h4>Tipos:</h4>
+      <ContainerTypesAndShiny>
+        <SectionsTypes>
           {pokemon.types.map((type, index) => (
             <p key={index}>{type.type.name}</p>
           ))}
-        </div>
+        </SectionsTypes>
         <div>
           <MyButton title={"Shiny"} />
         </div>
-      </div>
+      </ContainerTypesAndShiny>
     </CardPoke>
   );
 };
@@ -66,10 +48,26 @@ const FigureImg = styled.figure({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "#ffffcc",
+  backgroundColor: "var(--tbody-tr-nth-child-even)",
   borderRadius: ".5rem",
 });
 const ImgPokemon = styled.img({
   width: "70%",
   height: "100%",
+});
+const ContainerTypesAndShiny = styled.section({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+});
+const SectionsTypes = styled.section({
+  display: "flex",
+  width: "50%",
+  gap: "1rem",
+});
+const SectionSkills = styled.section({
+  display: "flex",
+  width: "100%",
+  gap: "1rem",
 });
