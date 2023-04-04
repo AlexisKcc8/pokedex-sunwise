@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import {
   getPokemonsList,
   getPokemonsGrid,
+  filterByName,
 } from "../features/pokemons/pokemonsSlice";
-import { useNavigate } from "react-router-dom";
+
 let objectPokemon = {
   name: "",
   preview: "",
@@ -14,18 +15,20 @@ let objectPokemon = {
   shynis: [],
 };
 export const usePokemon = () => {
+  const dispatch = useDispatch();
   const [pokemons, setPokemons] = useState([objectPokemon]);
   const [loading, setLoading] = useState(false);
   const [isViewPokemonList, setIsViewPokemonList] = useState(true);
   const [offsetPokeList, setOffsetPokeList] = useState(1);
   const [limitPokeGrid, setLimitPokeGrid] = useState(8);
-  const [showShiny, setShowShiny] = useState({ status: false, data: {} });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showIconScrollTop, setShowIconScrollTop] = useState(false);
 
-  let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=5`;
+  let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=10`;
   let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;
 
-  const dispatch = useDispatch();
   useEffect(() => {
+    setSearchTerm("");
     if (isViewPokemonList) {
       getApiPokes(urlPokeList);
     } else {
@@ -35,26 +38,47 @@ export const usePokemon = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isViewPokemonList, urlPokeList, urlPokeGrid]);
 
-  const closeSession = () => {
-    localStorage.removeItem("userActive");
-    location.reload();
+  useEffect(() => {
+    dispatch(filterByName(searchTerm));
+  }, [searchTerm, dispatch]);
+
+  useEffect(() => {
+    const handleVisibilityIconScroll = () => {
+      window.pageYOffset > 300
+        ? setShowIconScrollTop(true)
+        : setShowIconScrollTop(false);
+    };
+    window.addEventListener("scroll", handleVisibilityIconScroll);
+    return () => {
+      window.removeEventListener("scroll", handleVisibilityIconScroll);
+    };
+  }, []);
+
+  const changeSearchTerm = (e) => {
+    setSearchTerm(e.target.value);
   };
+
   const nextPokeList = () => {
     if (offsetPokeList < 1281) {
       console.log("next");
-      setOffsetPokeList(offsetPokeList + 5);
+      setOffsetPokeList(offsetPokeList + 10);
     } else {
       return;
     }
   };
   const prevPokeList = () => {
     if (offsetPokeList > 1) {
-      setOffsetPokeList(offsetPokeList - 5);
+      setOffsetPokeList(offsetPokeList - 10);
     } else {
       return;
     }
   };
-
+  const goUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const handleScroll = async () => {
     let innerHeight = window.innerHeight;
     let scrollTop = document.documentElement.scrollTop;
@@ -62,6 +86,11 @@ export const usePokemon = () => {
     if (innerHeight + scrollTop + 1 >= scrollHeight) {
       setLimitPokeGrid((prev) => prev + 4);
     }
+  };
+
+  const closeSession = () => {
+    localStorage.removeItem("userActive");
+    location.reload();
   };
   const getApiPokes = useCallback(
     async (urlPokemon) => {
@@ -108,5 +137,9 @@ export const usePokemon = () => {
     nextPokeList,
     loading,
     closeSession,
+    changeSearchTerm,
+    searchTerm,
+    goUp,
+    showIconScrollTop,
   };
 };

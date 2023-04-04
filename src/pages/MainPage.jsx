@@ -4,15 +4,17 @@ import { MyButton } from "../components/MyButton";
 import { ContainerFluid } from "../components/ContainerFluid";
 import { PokemonsModGrid } from "../components/PokemonsModGrid";
 import { PokemonsModList } from "../components/PokemonsModList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
 import { Modal } from "../components/Modal";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
   const navigate = useNavigate();
+
   const {
     changeViewPokemon,
     isViewPokemonList,
@@ -20,6 +22,10 @@ export const MainPage = () => {
     nextPokeList,
     loading,
     closeSession,
+    changeSearchTerm,
+    searchTerm,
+    goUp,
+    showIconScrollTop,
   } = usePokemon();
 
   useEffect(() => {
@@ -40,10 +46,13 @@ export const MainPage = () => {
         <SectionSearchAndChangeView>
           <form>
             <InputForm
-              urlIcon="/icons/icon-search.svg"
-              altIcon="icono-busqueda"
-              type={"text"}
+              type="text"
+              name="filter-pokemon"
+              value={searchTerm}
+              handleChange={changeSearchTerm}
               placeHolder={"Buscar Pokémon"}
+              urlIcon="/icons/icon-search.svg"
+              altIcon="icono-filter-pokemon"
             />
           </form>
           <ContainerBtnsChangeView>
@@ -63,7 +72,11 @@ export const MainPage = () => {
             prevPokeList={prevPokeList}
           />
         ) : (
-          <PokemonsModGrid loading={loading} />
+          <PokemonsModGrid
+            loading={loading}
+            goUp={goUp}
+            showIconTop={showIconScrollTop}
+          />
         )}
       </ContainerMain>
       {pokeSelected.showModal ? <Modal data={pokeSelected} /> : null}

@@ -8,7 +8,7 @@ import { usePokemon } from "../hooks/usePokemon";
 
 export const PokemonsModList = (props) => {
   const { nextPokeList, prevPokeList, loading } = props;
-  const pokemons = useSelector((state) => state.pokemons.pokemonsList);
+  const pokemons = useSelector((state) => state.pokemons.filterPokeList);
 
   return (
     <ContainerPokemonTableList>

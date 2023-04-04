@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   pokemonsList: [],
+  filterPokeList: [],
   pokemonsGrid: [],
+  filterPokeGrid: [],
   pokemonSelected: {},
 };
 
@@ -14,6 +16,7 @@ export const pokeSlice = createSlice({
       // console.log("list", action.payload);
       if (action.payload !== null) {
         state.pokemonsList = action.payload.slice();
+        state.filterPokeList = action.payload.slice();
       } else {
         state = null;
       }
@@ -22,13 +25,13 @@ export const pokeSlice = createSlice({
       // console.log("grid", action.payload);
       if (action.payload !== null) {
         state.pokemonsGrid = action.payload.slice();
+        state.filterPokeGrid = action.payload.slice();
       } else {
         state = null;
       }
     },
     selectedPokemon: (state, action) => {
       const { view, data } = action.payload;
-      console.log(data);
       let pokeSelected = {
         id: data.id,
         poke: data,
@@ -41,9 +44,30 @@ export const pokeSlice = createSlice({
 
       state.pokemonSelected = pokeSelected;
     },
+    filterByName: (state, action) => {
+      let name = action.payload;
+
+      const pokeFilterList = state.pokemonsList.filter((poke) =>
+        poke.name.toLowerCase().includes(name.toLowerCase())
+      );
+      const pokeFilterGrid = state.pokemonsGrid.filter((poke) =>
+        poke.name.toLowerCase().includes(name.toLowerCase())
+      );
+      return {
+        ...state,
+        filterPokeList:
+          name.length > 0 ? pokeFilterList : [...state.pokemonsList],
+        filterPokeGrid:
+          name.length > 0 ? pokeFilterGrid : [...state.pokemonsGrid],
+      };
+    },
   },
 });
 
-export const { getPokemonsList, getPokemonsGrid, selectedPokemon } =
-  pokeSlice.actions;
+export const {
+  getPokemonsList,
+  getPokemonsGrid,
+  selectedPokemon,
+  filterByName,
+} = pokeSlice.actions;
 export default pokeSlice.reducer;

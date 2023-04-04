@@ -4,9 +4,9 @@ import styled from "styled-components";
 export const MessageInfo = (props) => {
   const { message, color = "#0022ff" } = props;
 
-  return <MessageSuccess>{message}</MessageSuccess>;
+  return <Message>{message}</Message>;
 };
-const MessageSuccess = styled.p({
+const Message = styled.p({
   color: `blue`,
   margin: "0",
   padding: "0",
