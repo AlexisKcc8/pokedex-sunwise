@@ -29,9 +29,9 @@ export const usePokemon = () => {
       getApiPokes(urlPokeList);
     } else {
       getApiPokes(urlPokeGrid);
-      window.addEventListener("scroll", onScroll);
+      window.addEventListener("scroll", handleScroll);
     }
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [isViewPokemonList, urlPokeList, urlPokeGrid]);
 
   const nextPokeList = () => {
@@ -49,17 +49,17 @@ export const usePokemon = () => {
       return;
     }
   };
-  const showModalShiny = (data) => {
-    setShowShiny({ status: true, data: data });
-    console.log(data);
-  };
-  const onScroll = () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setLimitPokeGrid(limitPokeGrid + 8);
-      console.log("nueva peticion");
+  // const showModalShiny = (data) => {
+  //   setShowShiny({ status: true, data: data });
+  //   console.log(data);
+  // };
+
+  const handleScroll = async () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setLimitPokeGrid((prev) => prev + 4);
     }
   };
   const getApiPokes = useCallback(
@@ -103,10 +103,8 @@ export const usePokemon = () => {
   return {
     changeViewPokemon,
     isViewPokemonList,
-    nextPokeList,
     prevPokeList,
+    nextPokeList,
     loading,
-    showShiny,
-    showModalShiny,
   };
 };

@@ -6,17 +6,16 @@ import { selectedPokemon } from "../features/pokemons/pokemonsSlice";
 export const Modal = (props) => {
   const { data } = props;
   const { name } = data;
-  console.log(data);
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(selectedPokemon({ view: "close", data: {} }));
   };
 
   return (
-    <ContainerModal onClick={closeModal}>
+    <ContainerModal onClick={closeModal} className="modal">
       <IconClose onClick={closeModal}>❎</IconClose>
 
-      <ContenModal>
+      <ContenModal className="modal__content">
         <h2>Shinys de {name}</h2>
       </ContenModal>
     </ContainerModal>
@@ -33,15 +32,24 @@ const ContainerModal = styled.section({
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "var(--bg-modal)",
+
   zIndex: "200",
 });
 
 const ContenModal = styled.article({
-  width: "90%",
+  width: "70%",
+  position: "fixed",
+  top: "0rem",
+  left: "0rem",
+  right: "0",
+  bottom: "0",
+  margin: "0 auto",
   backgroundColor: "white",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  overflow: "hidden",
+  overscrollBehaviorY: "contain",
 });
 
 const IconClose = styled.h2({

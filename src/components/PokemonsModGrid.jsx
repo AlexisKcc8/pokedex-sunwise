@@ -9,17 +9,16 @@ export const PokemonsModGrid = (props) => {
   const pokemons = useSelector((state) => state.pokemons.pokemonsGrid);
   return (
     <>
+      <ContainerModGrid>
+        {pokemons.map((pokemon) => (
+          <CardPokemon key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </ContainerModGrid>
       {loading ? (
         <ContainerLoader>
           <Loader />
         </ContainerLoader>
-      ) : (
-        <ContainerModGrid>
-          {pokemons.map((pokemon) => (
-            <CardPokemon key={pokemon.id} pokemon={pokemon} />
-          ))}
-        </ContainerModGrid>
-      )}
+      ) : null}
     </>
   );
 };
@@ -28,6 +27,8 @@ const ContainerModGrid = styled.section({
   display: "grid",
   gridTemplateColumns: "repeat(4, 1fr)",
   gap: "2rem",
+  margin: "0 0 1rem 0",
+  overflowY: "hidden",
 });
 const ContainerLoader = styled.section({
   width: "100",

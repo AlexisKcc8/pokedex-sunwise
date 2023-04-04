@@ -59,6 +59,7 @@ const ContainerPokemonTableList = styled.section({
   justifyContent: "center",
   alignItems: "center",
   textAlign: "center",
+  margin: "0 0 3rem 0",
 });
 const ContainerPagination = styled.section({
   width: "100%",

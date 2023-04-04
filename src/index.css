@@ -48,3 +48,12 @@ button:hover {
     transform: rotate(360deg);
   }
 }
+
+
+
+.modal__content {
+  overflow: hidden;
+  overscroll-behavior-y: contain;
+  background-color: red;
+  height: 100%;
+}

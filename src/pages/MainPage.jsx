@@ -17,14 +17,13 @@ export const MainPage = () => {
     prevPokeList,
     nextPokeList,
     loading,
-    showShiny,
   } = usePokemon();
   return (
     <ContainerFluid>
       <ContainerMain>
         <SectionHeaderWelcome>
-          <TitleH2>Pokédex </TitleH2>
-          <TitleH2>Hola {userActive.name}</TitleH2>
+          <TitleH2>Pokédex ☀️</TitleH2>
+          <TitleH2>Hola 🙋 {userActive.name}</TitleH2>
         </SectionHeaderWelcome>
 
         <SectionSearchAndChangeView>
