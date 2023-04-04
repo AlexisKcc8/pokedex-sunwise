@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, newLogin } from "../features/auth/userSlice";
+import {
+  addUser,
+  getUserActive,
+  getUsers,
+  newLogin,
+} from "../features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  getValueToLocaleStorage,
+  setValueToLocaleStorage,
+} from "../helper/localStorageFunction";
 
 const initialStateUser = {
   name: "",
@@ -18,6 +27,23 @@ export const useAuth = () => {
   const [errorLogin, setErrorLogin] = useState(false);
   const navigate = useNavigate();
   const userActive = useSelector((state) => state.usersLogin.userLogin);
+
+  useEffect(() => {
+    const users = getValueToLocaleStorage("usersLogin");
+    if (users) {
+      dispatch(getUsers(users));
+
+      const userActive = getValueToLocaleStorage("userActive");
+      if (userActive) {
+        dispatch(getUserActive(userActive));
+      } else {
+        setValueToLocaleStorage("userActive", {});
+      }
+    } else {
+      setValueToLocaleStorage("usersLogin", []);
+    }
+  }, [isSignUp]);
+
   useEffect(() => {
     if (userActive.statusLogin) {
       navigate("/main-page");
@@ -67,6 +93,7 @@ export const useAuth = () => {
   const newRegister = () => {
     if (user.password !== user.confirmPassword) {
       setPasswordEquals(false);
+
       return;
     } else {
       setPasswordEquals(true);

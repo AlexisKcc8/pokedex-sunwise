@@ -27,14 +27,11 @@ export const pokeSlice = createSlice({
       }
     },
     selectedPokemon: (state, action) => {
-      console.log(action.payload);
       const { view, data } = action.payload;
       console.log(data);
-      // console.log(action.payload);
       let pokeSelected = {
         id: data.id,
-        name: data.name,
-        shinys: data.shynis,
+        poke: data,
       };
       if (view === "modalShiny") {
         pokeSelected.showModal = true;

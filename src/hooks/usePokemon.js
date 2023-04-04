@@ -5,6 +5,7 @@ import {
   getPokemonsList,
   getPokemonsGrid,
 } from "../features/pokemons/pokemonsSlice";
+import { useNavigate } from "react-router-dom";
 let objectPokemon = {
   name: "",
   preview: "",
@@ -34,6 +35,10 @@ export const usePokemon = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isViewPokemonList, urlPokeList, urlPokeGrid]);
 
+  const closeSession = () => {
+    localStorage.removeItem("userActive");
+    location.reload();
+  };
   const nextPokeList = () => {
     if (offsetPokeList < 1281) {
       console.log("next");
@@ -49,16 +54,12 @@ export const usePokemon = () => {
       return;
     }
   };
-  // const showModalShiny = (data) => {
-  //   setShowShiny({ status: true, data: data });
-  //   console.log(data);
-  // };
 
   const handleScroll = async () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >=
-      document.documentElement.scrollHeight
-    ) {
+    let innerHeight = window.innerHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let scrollHeight = document.documentElement.scrollHeight;
+    if (innerHeight + scrollTop + 1 >= scrollHeight) {
       setLimitPokeGrid((prev) => prev + 4);
     }
   };
@@ -77,7 +78,7 @@ export const usePokemon = () => {
             preview: responseApiPoke.sprites.front_default,
             types: responseApiPoke.types,
             skills: responseApiPoke.abilities,
-            shynis: [responseApiPoke.sprites],
+            sprites: [responseApiPoke.sprites],
           };
           setPokemons([...pokemons, objectPokemon]);
           arrayPokemons.push(objectPokemon);
@@ -106,5 +107,6 @@ export const usePokemon = () => {
     prevPokeList,
     nextPokeList,
     loading,
+    closeSession,
   };
 };

@@ -5,7 +5,7 @@ import { selectedPokemon } from "../features/pokemons/pokemonsSlice";
 
 export const Modal = (props) => {
   const { data } = props;
-  const { name } = data;
+  const { name } = data.poke;
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(selectedPokemon({ view: "close", data: {} }));
