@@ -1,56 +1,112 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { helpHttp } from "../helper/helpHttp";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getPokemonsList,
   getPokemonsGrid,
 } from "../features/pokemons/pokemonsSlice";
-
+let objectPokemon = {
+  name: "",
+  preview: "",
+  types: "",
+  skills: "",
+  shynis: [],
+};
 export const usePokemon = () => {
-  let urlPokeList = "https://pokeapi.co/api/v2/pokemon?offset=1&limit=5";
-  let urlPokeGrid = "https://pokeapi.co/api/v2/pokemon?offset=1&limit=8";
-  const dispatch = useDispatch();
+  const [pokemons, setPokemons] = useState([objectPokemon]);
+  const [loading, setLoading] = useState(false);
   const [isViewPokemonList, setIsViewPokemonList] = useState(true);
+  const [offsetPokeList, setOffsetPokeList] = useState(1);
+  const [limitPokeGrid, setLimitPokeGrid] = useState(8);
+  const [showShiny, setShowShiny] = useState({ status: false, data: {} });
 
+  let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=5`;
+  let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;
+
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isViewPokemonList) {
-      console.log("lista");
       getApiPokes(urlPokeList);
     } else {
-      console.log("grid");
       getApiPokes(urlPokeGrid);
+      window.addEventListener("scroll", onScroll);
     }
-  }, [isViewPokemonList]);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isViewPokemonList, urlPokeList, urlPokeGrid]);
 
-  const getApiPokes = async (urlPokemon) => {
-    try {
-      let responseApiUrlsPoke = await helpHttp().get(urlPokemon);
-      const { results } = responseApiUrlsPoke;
-      let arrayPokemons = [];
-      for (const { url } of results) {
-        let responseApiPoke = await helpHttp().get(url);
-        let objectPokemon = {
-          id: responseApiPoke.id,
-          name: responseApiPoke.name,
-          preview: responseApiPoke.sprites.front_default,
-          types: responseApiPoke.types,
-          skills: responseApiPoke.abilities,
-          shynis: [responseApiPoke.sprites],
-        };
-        arrayPokemons.push(objectPokemon);
-      }
-      if (isViewPokemonList) {
-        dispatch(getPokemonsList(arrayPokemons));
-      } else {
-        dispatch(getPokemonsGrid(arrayPokemons));
-      }
-    } catch (error) {
-      dispatch(getPokemonsList(null));
-      dispatch(getPokemonsGrid(null));
+  const nextPokeList = () => {
+    if (offsetPokeList < 1281) {
+      console.log("next");
+      setOffsetPokeList(offsetPokeList + 5);
+    } else {
+      return;
     }
   };
+  const prevPokeList = () => {
+    if (offsetPokeList > 1) {
+      setOffsetPokeList(offsetPokeList - 5);
+    } else {
+      return;
+    }
+  };
+  const showModalShiny = (data) => {
+    setShowShiny({ status: true, data: data });
+    console.log(data);
+  };
+  const onScroll = () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setLimitPokeGrid(limitPokeGrid + 8);
+      console.log("nueva peticion");
+    }
+  };
+  const getApiPokes = useCallback(
+    async (urlPokemon) => {
+      try {
+        setLoading(true);
+        let responseApiUrlsPoke = await helpHttp().get(urlPokemon);
+        const { results } = responseApiUrlsPoke;
+        let arrayPokemons = [];
+        for (const { url } of results) {
+          let responseApiPoke = await helpHttp().get(url);
+          let objectPokemon = {
+            id: responseApiPoke.id,
+            name: responseApiPoke.name,
+            preview: responseApiPoke.sprites.front_default,
+            types: responseApiPoke.types,
+            skills: responseApiPoke.abilities,
+            shynis: [responseApiPoke.sprites],
+          };
+          setPokemons([...pokemons, objectPokemon]);
+          arrayPokemons.push(objectPokemon);
+        }
+        if (isViewPokemonList) {
+          dispatch(getPokemonsList(arrayPokemons));
+        } else {
+          dispatch(getPokemonsGrid(arrayPokemons));
+        }
+      } catch (error) {
+        dispatch(getPokemonsList(null));
+        dispatch(getPokemonsGrid(null));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [isViewPokemonList]
+  );
+
   const changeViewPokemon = (view) => {
     setIsViewPokemonList(view);
   };
-  return { changeViewPokemon, isViewPokemonList };
+  return {
+    changeViewPokemon,
+    isViewPokemonList,
+    nextPokeList,
+    prevPokeList,
+    loading,
+    showShiny,
+    showModalShiny,
+  };
 };

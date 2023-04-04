@@ -8,12 +8,11 @@ import {
   setValueToLocaleStorage,
 } from "./helper/localStorageFunction";
 import { getUserActive, getUsers } from "./features/auth/userSlice";
-import { usePokemon } from "./hooks/usePokemon";
+import { DetailsPage } from "./pages/DetailsPage";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("renderizo la carga de usuarios");
     const users = getValueToLocaleStorage("usersLogin");
     const userActive = getValueToLocaleStorage("userActive");
     if (users && userActive) {
@@ -30,9 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />}></Route>
         <Route path="/main-page" element={<MainPage />}></Route>
-        {/* <Route path="añadir-categoria" element={<NewCategoryPage />}></Route>
-        <Route path="añadir-producto" element={<NewProductPage />}></Route>
-        <Route path="*" element={<NotFoundPage />}></Route> */}
+        <Route path="/details-poke" element={<DetailsPage />}></Route>
       </Routes>
     </BrowserRouter>
     // <section>{userActive.statusLogin ? <MainPage /> : <LoginPage />}</section>

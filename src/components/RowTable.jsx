@@ -1,8 +1,9 @@
-import React from "react";
+import { MyButton } from "./MyButton";
+import { detailsPokes } from "../helper/detailsPokes";
 
 export const RowTable = (props) => {
   const { pokemon } = props;
-
+  const { showModalShinys, showDetails } = detailsPokes();
   // id: responseApiPoke.id,
   //       name: responseApiPoke.name,
   //       preview: responseApiPoke.sprites.front_default,
@@ -10,11 +11,7 @@ export const RowTable = (props) => {
   //       skills: responseApiPoke.abilities,
   //       shynis: [responseApiPoke.sprites],
   return (
-    <tr
-      onClick={() => {
-        console.log(pokemon);
-      }}
-    >
+    <tr onClick={(e) => showDetails(e, pokemon)}>
       <th scope="row">{pokemon.id}</th>
       <td>{pokemon.name}</td>
       <td>
@@ -31,9 +28,7 @@ export const RowTable = (props) => {
         ))}
       </td>
       <td>
-        <button type="button" className="btn btn-info text-white">
-          Shyni
-        </button>
+        <MyButton event={(e) => showModalShinys(e, pokemon)} title="shiny" />
       </td>
     </tr>
   );

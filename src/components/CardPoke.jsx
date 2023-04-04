@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { MyButton } from "./MyButton";
+import { detailsPokes } from "../helper/detailsPokes";
 
 export const CardPokemon = (props) => {
   const { pokemon } = props;
 
+  const { showModalShinys, showDetails } = detailsPokes();
+
   return (
-    <CardPoke>
+    <CardPoke onClick={(e) => showDetails(e, pokemon)}>
       <FigureImg>
         <ImgPokemon src={pokemon.preview} alt={`imagen-${pokemon.name}`} />
       </FigureImg>
@@ -27,7 +30,7 @@ export const CardPokemon = (props) => {
           ))}
         </SectionsTypes>
         <div>
-          <MyButton title={"Shiny"} />
+          <MyButton event={(e) => showModalShinys(e, pokemon)} title="Shiny" />
         </div>
       </ContainerTypesAndShiny>
     </CardPoke>
@@ -42,6 +45,10 @@ const CardPoke = styled.section({
   alignItems: "center",
   padding: "1rem",
   borderRadius: ".5rem",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
 });
 const FigureImg = styled.figure({
   width: "100%",

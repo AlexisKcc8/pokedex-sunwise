@@ -11,6 +11,7 @@ export const Table = styled.table({
   "& > thead tr th": {
     backgroundColor: "var(--bg-thead)",
     padding: ".5rem",
+    zIndex: "50",
   },
   "&:hover": {
     cursor: "pointer",

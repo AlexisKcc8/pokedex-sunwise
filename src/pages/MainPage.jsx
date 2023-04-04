@@ -6,17 +6,27 @@ import { PokemonsModGrid } from "../components/PokemonsModGrid";
 import { PokemonsModList } from "../components/PokemonsModList";
 import { useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
-
+import { Modal } from "../components/Modal";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
-  const { changeViewPokemon, isViewPokemonList } = usePokemon();
+  const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
+
+  const {
+    changeViewPokemon,
+    isViewPokemonList,
+    prevPokeList,
+    nextPokeList,
+    loading,
+    showShiny,
+  } = usePokemon();
   return (
     <ContainerFluid>
       <ContainerMain>
         <SectionHeaderWelcome>
-          <TitleH2>Pokédex</TitleH2>
+          <TitleH2>Pokédex </TitleH2>
           <TitleH2>Hola {userActive.name}</TitleH2>
         </SectionHeaderWelcome>
+
         <SectionSearchAndChangeView>
           <form>
             <InputForm
@@ -35,15 +45,24 @@ export const MainPage = () => {
             />
           </ContainerBtnsChangeView>
         </SectionSearchAndChangeView>
-        {isViewPokemonList ? <PokemonsModList /> : <PokemonsModGrid />}
+
+        {isViewPokemonList ? (
+          <PokemonsModList
+            loading={loading}
+            nextPokeList={nextPokeList}
+            prevPokeList={prevPokeList}
+          />
+        ) : (
+          <PokemonsModGrid loading={loading} />
+        )}
       </ContainerMain>
+      {pokeSelected.showModal ? <Modal data={pokeSelected} /> : null}
     </ContainerFluid>
   );
 };
 const ContainerMain = styled.section({
   width: "90%",
   minHeight: "100vh",
-  // border: "1px solid red",
 });
 
 const SectionHeaderWelcome = styled.section({
@@ -51,7 +70,6 @@ const SectionHeaderWelcome = styled.section({
   justifyContent: "space-between",
   alignItems: "center",
   padding: "1rem",
-  margin: "1rem 0 0 0",
 });
 const SectionSearchAndChangeView = styled.section({
   display: "flex",
