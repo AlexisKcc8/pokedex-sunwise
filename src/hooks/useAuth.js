@@ -86,8 +86,10 @@ export const useAuth = () => {
       handleReset();
       setErrorLogin(false);
     } else {
-      navigate("/");
       setErrorLogin(true);
+      setTimeout(() => {
+        setErrorLogin(false);
+      }, 3000);
     }
   };
   const newRegister = () => {
@@ -107,6 +109,7 @@ export const useAuth = () => {
   };
 
   const newSignUp = (isSignUp) => {
+    setUser(initialStateUser);
     setIsSignUp(isSignUp);
   };
   return {

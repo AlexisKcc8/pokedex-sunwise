@@ -52,7 +52,7 @@ export const FormLogin = () => {
         placeHolder={"Contraseña"}
         urlIcon="/icons/pws.svg"
       />
-      {errorLogin ? (
+      {errorLogin && isSignUp === false ? (
         <MessageInfo
           message="Estos datos no pertenecen a ningun usuario, por favor reviselas"
           color="red"

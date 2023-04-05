@@ -13,6 +13,7 @@ import { useEffect } from "react";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
+  console.log(userActive);
   const navigate = useNavigate();
 
   const {

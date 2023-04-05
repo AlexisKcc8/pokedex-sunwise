@@ -6,6 +6,7 @@ import {
   getPokemonsGrid,
   filterByName,
 } from "../features/pokemons/pokemonsSlice";
+import { useNavigate } from "react-router-dom";
 
 let objectPokemon = {
   name: "",
@@ -15,6 +16,7 @@ let objectPokemon = {
   shynis: [],
 };
 export const usePokemon = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pokemons, setPokemons] = useState([objectPokemon]);
   const [loading, setLoading] = useState(false);
@@ -90,6 +92,7 @@ export const usePokemon = () => {
 
   const closeSession = () => {
     localStorage.removeItem("userActive");
+    navigate("/");
     location.reload();
   };
   const getApiPokes = useCallback(
