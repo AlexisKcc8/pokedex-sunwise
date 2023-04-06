@@ -14,3 +14,6 @@
 - git clone https://github.com/AlexisKcc8/pokedex-sunwise.git / Descargar el archivo Zip
 - npm install
 - npm run dev
+
+### Pokedex - Live
+https://pokedex-sunwise-alx.netlify.app/
