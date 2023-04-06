@@ -22,8 +22,6 @@ export const useAuth = () => {
   useEffect(() => {
     if (userActive.statusLogin) {
       navigate("/main-page");
-    } else {
-      navigate("/");
     }
   }, [userActive]);
 

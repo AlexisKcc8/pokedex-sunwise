@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { helpHttp } from "../helper/helpHttp";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   getPokemonsList,
   getPokemonsGrid,
@@ -26,7 +25,6 @@ export const usePokemon = () => {
   const [limitPokeGrid, setLimitPokeGrid] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
   const [showIconScrollTop, setShowIconScrollTop] = useState(false);
-  const navigate = useNavigate();
 
   let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=10`;
   let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;

@@ -11,7 +11,7 @@ import { useEffect } from "react";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
-
+  const navigate = useNavigate();
   const {
     changeViewPokemon,
     isViewPokemonList,
