@@ -32,9 +32,7 @@ export const usePokemon = () => {
   let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;
 
   useEffect(() => {
-    if (userActive.statusLogin) {
-      navigate("/main-page");
-    } else {
+    if (!userActive.statusLogin) {
       navigate("/");
     }
   }, [userActive]);
