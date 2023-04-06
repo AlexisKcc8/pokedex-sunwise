@@ -7,6 +7,7 @@ import { PokemonsModList } from "../components/PokemonsModList";
 import { useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
 import { Modal } from "../components/Modal";
+import { useEffect } from "react";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
