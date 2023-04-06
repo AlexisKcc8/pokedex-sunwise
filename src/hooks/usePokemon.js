@@ -62,7 +62,6 @@ export const usePokemon = () => {
 
   const nextPokeList = () => {
     if (offsetPokeList < 1281) {
-      console.log("next");
       setOffsetPokeList(offsetPokeList + 10);
     } else {
       return;
