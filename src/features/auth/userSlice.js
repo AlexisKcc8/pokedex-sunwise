@@ -38,6 +38,11 @@ export const usersSlice = createSlice({
         state.userLogin = newLogin;
       }
     },
+    closeSession: (state, action) => {
+      if (action.payload) {
+        state.userLogin = DEFAULT_USER_ACTIVE_STATE;
+      }
+    },
     addUser: (state, action) => {
       const { email, password, name } = action.payload;
       let userNew = {
@@ -51,6 +56,5 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { newLogin, addUser, getUsers, getUserActive } =
-  usersSlice.actions;
+export const { newLogin, addUser, closeSession } = usersSlice.actions;
 export default usersSlice.reducer;

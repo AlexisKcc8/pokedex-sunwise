@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { helpHttp } from "../helper/helpHttp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getPokemonsList,
   getPokemonsGrid,
   filterByName,
 } from "../features/pokemons/pokemonsSlice";
+import { closeSession } from "../features/auth/userSlice";
 
 let objectPokemon = {
   name: "",
@@ -16,6 +18,7 @@ let objectPokemon = {
 };
 export const usePokemon = () => {
   const dispatch = useDispatch();
+  const userActive = useSelector((state) => state.usersLogin.userLogin);
   const [pokemons, setPokemons] = useState([objectPokemon]);
   const [loading, setLoading] = useState(false);
   const [isViewPokemonList, setIsViewPokemonList] = useState(true);
@@ -23,9 +26,18 @@ export const usePokemon = () => {
   const [limitPokeGrid, setLimitPokeGrid] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
   const [showIconScrollTop, setShowIconScrollTop] = useState(false);
+  const navigate = useNavigate();
 
   let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=10`;
   let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;
+
+  useEffect(() => {
+    if (userActive.statusLogin) {
+      navigate("/main-page");
+    } else {
+      navigate("/");
+    }
+  }, [userActive]);
 
   useEffect(() => {
     setSearchTerm("");
@@ -90,9 +102,8 @@ export const usePokemon = () => {
   const changeViewPokemon = (view) => {
     setIsViewPokemonList(view);
   };
-  const closeSession = () => {
-    localStorage.removeItem("userActive");
-    location.reload();
+  const logout = () => {
+    dispatch(closeSession(true));
   };
 
   const getApiPokes = useCallback(
@@ -136,7 +147,7 @@ export const usePokemon = () => {
     prevPokeList,
     nextPokeList,
     loading,
-    closeSession,
+    logout,
     changeSearchTerm,
     searchTerm,
     goUp,

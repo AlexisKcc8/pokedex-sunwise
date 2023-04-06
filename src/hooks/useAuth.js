@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addUser,
-  getUserActive,
-  getUsers,
-  newLogin,
-} from "../features/auth/userSlice";
+import { addUser, newLogin } from "../features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
-import {
-  getValueToLocaleStorage,
-  setValueToLocaleStorage,
-} from "../helper/localStorageFunction";
 
 const initialStateUser = {
   name: "",

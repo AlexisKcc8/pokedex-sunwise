@@ -4,17 +4,12 @@ import { MyButton } from "../components/MyButton";
 import { ContainerFluid } from "../components/ContainerFluid";
 import { PokemonsModGrid } from "../components/PokemonsModGrid";
 import { PokemonsModList } from "../components/PokemonsModList";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
 import { Modal } from "../components/Modal";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
-
-  const navigate = useNavigate();
 
   const {
     changeViewPokemon,
@@ -22,18 +17,12 @@ export const MainPage = () => {
     prevPokeList,
     nextPokeList,
     loading,
-    closeSession,
+    logout,
     changeSearchTerm,
     searchTerm,
     goUp,
     showIconScrollTop,
   } = usePokemon();
-
-  useEffect(() => {
-    if (!userActive.statusLogin) {
-      navigate("/");
-    }
-  }, [userActive]);
 
   return (
     <ContainerFluid>
@@ -41,7 +30,7 @@ export const MainPage = () => {
         <SectionHeaderWelcome>
           <TitleH2>Pokédex ☀️</TitleH2>
           <TitleH2>Hola 🙋 {userActive.name}</TitleH2>
-          <MyButton event={closeSession} title="Cerrar sesión" />
+          <MyButton event={logout} title="Cerrar sesión" />
         </SectionHeaderWelcome>
 
         <SectionSearchAndChangeView>
