@@ -1,26 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
-
-import { setValueToLocaleStorage } from "../../helper/localStorageFunction";
+import { getValueToLocaleStorage } from "../../helper/localStorageFunction";
+const DEFAULT_NEW_USERS_STATE = [];
+const DEFAULT_USER_ACTIVE_STATE = {
+  name: "",
+  email: "",
+  statusLogin: false,
+};
 const initialState = {
-  userLogin: {
-    name: "",
-    email: "",
-    statusLogin: false,
-  },
-  newUsers: [],
+  userLogin: (() => {
+    const persistedState = getValueToLocaleStorage("userActive");
+    return persistedState ? persistedState : DEFAULT_USER_ACTIVE_STATE;
+  })(),
+  newUsers: (() => {
+    const persistedState = getValueToLocaleStorage("usersLogin");
+    return persistedState ? persistedState : DEFAULT_NEW_USERS_STATE;
+  })(),
 };
 
 export const usersSlice = createSlice({
   name: "usersLogin",
   initialState,
   reducers: {
-    getUsers: (state, action) => {
-      state.newUsers.push(...action.payload);
-    },
-    getUserActive: (state, action) => {
-      state.userLogin = action.payload;
-    },
     newLogin: (state, action) => {
       const { email, password } = action.payload;
       const findUser = state.newUsers.find(
@@ -29,22 +30,23 @@ export const usersSlice = createSlice({
       if (findUser === undefined) {
         state.userLogin = {};
       } else {
-        state.userLogin.name = findUser.name;
-        state.userLogin.email = findUser.email;
-        state.userLogin.statusLogin = true;
-        setValueToLocaleStorage("userActive", state.userLogin);
+        let newLogin = {
+          name: findUser.name,
+          email: findUser.email,
+          statusLogin: true,
+        };
+        state.userLogin = newLogin;
       }
     },
-
     addUser: (state, action) => {
       const { email, password, name } = action.payload;
-      let newUser = {
+      let userNew = {
         id: uuid(),
         name,
         email,
         password,
       };
-      setValueToLocaleStorage("usersLogin", [...state.newUsers, newUser]);
+      state.newUsers.push(userNew);
     },
   },
 });

@@ -20,29 +20,13 @@ const initialStateUser = {
 };
 export const useAuth = () => {
   const dispatch = useDispatch();
+  const userActive = useSelector((state) => state.usersLogin.userLogin);
   const [user, setUser] = useState(initialStateUser);
   const [isSignUp, setIsSignUp] = useState(false);
   const [passwordEquals, setPasswordEquals] = useState(true);
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
   const navigate = useNavigate();
-  const userActive = useSelector((state) => state.usersLogin.userLogin);
-
-  useEffect(() => {
-    const users = getValueToLocaleStorage("usersLogin");
-    if (users) {
-      dispatch(getUsers(users));
-
-      const userActive = getValueToLocaleStorage("userActive");
-      if (userActive) {
-        dispatch(getUserActive(userActive));
-      } else {
-        setValueToLocaleStorage("userActive", {});
-      }
-    } else {
-      setValueToLocaleStorage("usersLogin", []);
-    }
-  }, [isSignUp]);
 
   useEffect(() => {
     if (userActive.statusLogin) {

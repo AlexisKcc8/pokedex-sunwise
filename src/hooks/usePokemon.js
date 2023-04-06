@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { helpHttp } from "../helper/helpHttp";
 import { useDispatch } from "react-redux";
 import {
@@ -6,7 +6,6 @@ import {
   getPokemonsGrid,
   filterByName,
 } from "../features/pokemons/pokemonsSlice";
-import { useNavigate } from "react-router-dom";
 
 let objectPokemon = {
   name: "",
@@ -16,7 +15,6 @@ let objectPokemon = {
   shynis: [],
 };
 export const usePokemon = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pokemons, setPokemons] = useState([objectPokemon]);
   const [loading, setLoading] = useState(false);
@@ -89,12 +87,14 @@ export const usePokemon = () => {
       setLimitPokeGrid((prev) => prev + 4);
     }
   };
-
+  const changeViewPokemon = (view) => {
+    setIsViewPokemonList(view);
+  };
   const closeSession = () => {
     localStorage.removeItem("userActive");
-    navigate("/");
     location.reload();
   };
+
   const getApiPokes = useCallback(
     async (urlPokemon) => {
       try {
@@ -130,9 +130,6 @@ export const usePokemon = () => {
     [isViewPokemonList]
   );
 
-  const changeViewPokemon = (view) => {
-    setIsViewPokemonList(view);
-  };
   return {
     changeViewPokemon,
     isViewPokemonList,
