@@ -18,7 +18,7 @@ export const useAuth = () => {
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
   const navigate = useNavigate();
-
+  console.log("userAuth", userActive);
   useEffect(() => {
     if (userActive.statusLogin) {
       navigate("/main-page");

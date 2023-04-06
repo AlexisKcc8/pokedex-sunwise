@@ -23,7 +23,11 @@ export const MainPage = () => {
     goUp,
     showIconScrollTop,
   } = usePokemon();
-
+  useEffect(() => {
+    if (!userActive.statusLogin) {
+      navigate("/");
+    }
+  }, [userActive]);
   return (
     <ContainerFluid>
       <ContainerMain>
