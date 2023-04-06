@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
 import { Modal } from "../components/Modal";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
