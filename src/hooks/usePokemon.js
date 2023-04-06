@@ -7,6 +7,7 @@ import {
   filterByName,
 } from "../features/pokemons/pokemonsSlice";
 import { closeSession } from "../features/auth/userSlice";
+import { useNavigate } from "react-router-dom";
 
 let objectPokemon = {
   name: "",
@@ -25,9 +26,14 @@ export const usePokemon = () => {
   const [limitPokeGrid, setLimitPokeGrid] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
   const [showIconScrollTop, setShowIconScrollTop] = useState(false);
-
+  const navigate = useNavigate();
   let urlPokeList = `https://pokeapi.co/api/v2/pokemon?offset=${offsetPokeList}&limit=10`;
   let urlPokeGrid = `https://pokeapi.co/api/v2/pokemon?offset=1&limit=${limitPokeGrid}`;
+  useEffect(() => {
+    if (!userActive.statusLogin) {
+      navigate("/");
+    }
+  }, [userActive]);
 
   useEffect(() => {
     setSearchTerm("");
@@ -67,6 +73,7 @@ export const usePokemon = () => {
       return;
     }
   };
+
   const prevPokeList = () => {
     if (offsetPokeList > 1) {
       setOffsetPokeList(offsetPokeList - 10);
@@ -74,12 +81,14 @@ export const usePokemon = () => {
       return;
     }
   };
+
   const goUp = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
   const handleScroll = async () => {
     let innerHeight = window.innerHeight;
     let scrollTop = document.documentElement.scrollTop;
@@ -88,9 +97,11 @@ export const usePokemon = () => {
       setLimitPokeGrid((prev) => prev + 4);
     }
   };
+
   const changeViewPokemon = (view) => {
     setIsViewPokemonList(view);
   };
+
   const logout = () => {
     dispatch(closeSession(true));
   };

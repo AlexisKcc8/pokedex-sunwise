@@ -7,12 +7,10 @@ import { PokemonsModList } from "../components/PokemonsModList";
 import { useSelector } from "react-redux";
 import { usePokemon } from "../hooks/usePokemon";
 import { Modal } from "../components/Modal";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 export const MainPage = () => {
   const userActive = useSelector((state) => state.usersLogin.userLogin);
   const pokeSelected = useSelector((state) => state.pokemons.pokemonSelected);
-  const navigate = useNavigate();
+
   const {
     changeViewPokemon,
     isViewPokemonList,
@@ -25,11 +23,7 @@ export const MainPage = () => {
     goUp,
     showIconScrollTop,
   } = usePokemon();
-  useEffect(() => {
-    if (!userActive.statusLogin) {
-      navigate("/");
-    }
-  }, [userActive]);
+
   return (
     <ContainerFluid>
       <ContainerMain>
